@@ -178,7 +178,7 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
         }
         mRecordSampleRate = argsArr["sampleRate"] as? Double ?? mRecordSampleRate
         debugLogging = argsArr["showLogs"] as? Bool ?? debugLogging
-        mRecordFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: mRecordSampleRate, channels: 1, interleaved: true)
+        mRecordFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: mRecordSampleRate, channels: 1, interleaved: true)
         
         checkAndRequestPermission { isGranted in
             if isGranted {
@@ -211,7 +211,7 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
             let status = converter.convert(to: convertedBuffer, error: &error, withInputFrom: inputCallback)
             assert(status != .error)
             
-            if (self.mRecordFormat?.commonFormat == AVAudioCommonFormat.pcmFormatInt16) {
+            if (self.mRecordFormat?.commonFormat == AVAudioCommonFormat.pcmFormatFloat32) {
                 let values = self.audioBufferToBytes(convertedBuffer)
                 self.sendMicData(values)
             }
@@ -250,7 +250,7 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
         }
         mPlayerSampleRate = argsArr["sampleRate"] as? Double ?? mPlayerSampleRate
         debugLogging = argsArr["showLogs"] as? Bool ?? debugLogging
-        mPlayerInputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: mPlayerSampleRate, channels: 1, interleaved: true)
+        mPlayerInputFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatFloat32, sampleRate: mPlayerSampleRate, channels: 1, interleaved: true)
         sendPlayerStatus(SoundStreamStatus.Initialized)
     }
     
